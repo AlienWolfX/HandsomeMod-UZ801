@@ -6,11 +6,11 @@ USE_PROCD=1
 
 validate_system_section() {
 	uci_load_validate system system "$1" "$2" \
-		'hostname:string:HandsomeMod' \
+		'hostname:string:BogartX' \
 		'conloglevel:uinteger' \
 		'buffersize:uinteger' \
-		'timezone:string:UTC' \
-		'zonename:string'
+		'timezone:string:PST-8' \
+		'zonename:string:Asia/Manila'
 }
 
 system_config() {

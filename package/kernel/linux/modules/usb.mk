@@ -1241,6 +1241,7 @@ $(eval $(call KernelPackage,usb-net-cdc-mbim))
 define KernelPackage/usb-net-cdc-ncm
   TITLE:=Support for CDC NCM connections
   KCONFIG:=CONFIG_USB_NET_CDC_NCM
+  DEPENDS:=+kmod-usb-net-cdc-ether
   FILES:= $(LINUX_DIR)/drivers/$(USBNET_DIR)/cdc_ncm.ko
   AUTOLOAD:=$(call AutoProbe,cdc_ncm)
   $(call AddDepends/usb-net)
@@ -1782,6 +1783,7 @@ define KernelPackage/usb-gadget-multi
   TITLE:=Multifunction Composite Gadget support
   KCONFIG:= \
 	CONFIG_USB_G_MULTI_RNDIS=y \
+	CONFIG_USB_G_MULTI_CDC=y \
 	CONFIG_USB_G_MULTI
   DEPENDS:=+kmod-usb-gadget +kmod-usb-lib-composite +kmod-usb-gadget-mass-storage +kmod-usb-gadget-eth
   FILES:= $(LINUX_DIR)/drivers/usb/gadget/legacy/g_multi.ko

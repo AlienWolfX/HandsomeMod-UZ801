@@ -1,0 +1,5 @@
+- Fix LuCi time
+- Fix 6.5 mbits TX
+- Fix WireGuard 
+
+- To be updates

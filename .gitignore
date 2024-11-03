@@ -30,3 +30,8 @@ git-src
 .cproject
 .ccache
 .vscode
+
+# Added by Allen
+.config.working
+.config.buggy
+.config.latest.working.beta

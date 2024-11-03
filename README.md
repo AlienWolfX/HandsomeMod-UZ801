@@ -1,19 +1,10 @@
-<p align="center"><img src="img/logo.png" /></p>
 <h1 align="center">HandsomeMod 21.03</h1>
 <h4 align="center">IOT Freedom For End-user!</h4>
-<p align="center"><img  height="200" width="300" src="img/wayland.png" /><img  height="200" width="300" src="img/xorg.png" /></p>
-
-## Feature Overview
-
-- Opkg Packager Manager and Procd init.
-- Lower memory usage than Debian or some systemd-based linux.
-- Support Qt5 Gtk3 Xorg Wayland and lots of Graphics Stuff.
-- Support sound csi camera encoder&decoder drm on Allwinner platform.
-- Support librarys commonly use in embedded project.(opencv ncnn wiringpi etc)
-- Support Networkmanager and Connman. 
-- Just-enough Generic OS for embedded devices!
 
 ## Building Firmware
+
+> [!NOTE]
+> Some packages makefiles have been modified to work with my local apache server.
 
 To build your own firmware you need a Linux, BSD or MacOSX system (case
 sensitive filesystem required). Cygwin is unsupported.
@@ -34,32 +25,8 @@ toolchain, target system & firmware packages.
 the cross-compile toolchain and then cross-compile the Linux kernel & all
 chosen applications for your target system.
 
-## Mainly Supporting Platform
-
-This means those socs can get better support than others.
-
-- Allwinner Socs (linux mainline)
-- Qualcomm MSM89xx Family
-- Rapsberry pi
-- X86
-- Freescale I.MX6ULL Family (WIP)
-- Loongson64 Family (WIP)
-- Allwinner Socs (bsp kernel) (Planing)
-
-## Thanks
-
-HandsomeMod based on OpenWrt project.
-
-	* branch : openwrt-21.02
-	* commit: fc86176363149493810dc0b424583dd120e7f4c7
-
-https://github.com/openwrt/openwrt
-
-## Warning
-
-* Now this project is not good enough for production environment.
-* Some packages may buggy and unusable.
-
+> [!CAUTION]
+> This SDK is unstable; firmware produced with it should be treated with caution.
 
 ## License
 
