@@ -1266,6 +1266,7 @@ define KernelPackage/wireguard
 	  +kmod-crypto-lib-chacha20poly1305 \
 	  +kmod-crypto-lib-curve25519 \
 	  +kmod-udptunnel4 \
+    +kmod-crypto-lib-blake2s \
 	  +IPV6:kmod-udptunnel6
   KCONFIG:= \
 	  CONFIG_WIREGUARD \

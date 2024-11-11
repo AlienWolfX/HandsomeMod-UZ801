@@ -28,8 +28,6 @@ endef
 
 define Build/Compile
 	mkdir $(PKG_BUILD_DIR)/bogartx-uz801
-# 	mount -o loop -t vfat $(PKG_BUILD_DIR)/uz801-modem-philippines.bin /mnt
-# 	tar -xvf $(PKG_BUILD_DIR)/uz801-modem-philippines.bin -C $(PKG_BUILD_DIR)/bogartx-uz801
 	mcopy -i $(PKG_BUILD_DIR)/uz801-modem-philippines.bin -p -m -v \
 		::image/mba.mbn ::image/modem.* ::image/wcnss.* ::image/modem_pr/mcfg/configs/mcfg_sw/generic/common/default/default/* $(PKG_BUILD_DIR)/bogartx-uz801	
 endef

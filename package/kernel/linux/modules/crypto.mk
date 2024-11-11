@@ -445,6 +445,19 @@ endef
 
 $(eval $(call KernelPackage,crypto-kpp))
 
+define KernelPackage/crypto-lib-blake2s
+  TITLE:=BLAKE2s digest algorithm library interface
+  KCONFIG:= \
+    CONFIG_CRYPTO_LIB_BLAKE2S_GENERIC \
+    CONFIG_CRYPTO_LIB_BLAKE2S
+  HIDDEN:=1
+  FILES:= \
+    $(LINUX_DIR)/lib/crypto/libblake2s-generic.ko \
+    $(LINUX_DIR)/lib/crypto/libblake2s.ko
+  AUTOLOAD:=$(call AutoProbe,libblake2s-generic libblake2s)
+  $(call AddDepends/crypto)
+endef
+$(eval $(call KernelPackage,crypto-lib-blake2s))
 
 define KernelPackage/crypto-lib-chacha20
   TITLE:=ChaCha library interface
