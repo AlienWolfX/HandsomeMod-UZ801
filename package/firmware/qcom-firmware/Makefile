@@ -12,7 +12,7 @@ PKG_NAME:=qcom-firmware
 PKG_VERSION:=uz801
 PKG_RELEASE:=1
 
-PKG_SOURCE_URL:=http://192.168.1.14:8000/
+PKG_SOURCE_URL:=http://192.168.1.14:8000/ # Change this to your source url
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.xz
 PKG_HASH:=36427875d0324b64f6eb9ee71dbc447b
 
