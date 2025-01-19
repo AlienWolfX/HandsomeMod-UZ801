@@ -5,6 +5,7 @@
 
 > [!NOTE]
 > Some packages makefiles have been modified to work with my local apache server.
+> Built on **Ubuntu 20.04**
 
 To build your own firmware you need a Linux, BSD or MacOSX system (case
 sensitive filesystem required). Cygwin is unsupported.
