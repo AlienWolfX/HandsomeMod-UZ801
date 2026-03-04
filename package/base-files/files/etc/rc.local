@@ -1,4 +1,19 @@
 # Put your custom commands here that should be executed once
-# the system init finished. By default this file does nothing.
+# the system init finished.
+
+# Print banner at boot
+if [ -f /etc/banner ]; then
+	if [ -w /dev/kmsg ]; then
+		while IFS= read -r line; do
+			echo "$line" > /dev/kmsg
+		done < /etc/banner
+	else
+		logger -t banner -p daemon.info "$(tr '\n' ' ' < /etc/banner)"
+	fi
+
+	if [ -w /dev/console ]; then
+		cat /etc/banner > /dev/console
+	fi
+fi
 
 exit 0

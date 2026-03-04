@@ -1,0 +1,29 @@
+From: AlienWolfX <cruizallen2@gmail.com>
+Date: Thur, 04 Mar 2026 12:40:10 +0000
+Subject: [PATCH] arm64: dts: qcom: msm8916-openstick: Add kaslr-seed to chosen node
+
+The Qualcomm LK bootloader used on MSM8916 sticks does not populate
+the /chosen/kaslr-seed DT property, causing the kernel to log:
+
+  KASLR disabled due to lack of seed
+
+Add a static build-time seed so that KASLR is at least enabled with a
+fixed offset. This prevents generic exploits that target the kernel's
+default load address. True per-boot randomization would require
+bootloader support (EFI RNG or a dynamic kaslr-seed).
+
+Signed-off-by: AlienWolfX <cruizallen2@gmail.com>
+---
+ arch/arm64/boot/dts/qcom/msm8916-handsome-openstick-common.dtsi | 1 +
+ 1 file changed, 1 insertion(+)
+
+--- a/arch/arm64/boot/dts/qcom/msm8916-handsome-openstick-common.dtsi
++++ b/arch/arm64/boot/dts/qcom/msm8916-handsome-openstick-common.dtsi
+@@ -23,6 +23,7 @@
+ 
+ 	chosen {
+ 		stdout-path = "serial0";
++		kaslr-seed = <0x6b54d1a3 0x8f2e097b>;
+ 	};
+ 
+ 	reserved-memory {

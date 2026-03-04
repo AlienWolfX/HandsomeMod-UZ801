@@ -1,0 +1,25 @@
+#!/bin/sh
+
+[ "$ACTION" = "ifup" ] || exit 0
+
+# Only handle wlan* interfaces
+case "$INTERFACE" in
+    wlan*) ;;
+    *) exit 0 ;;
+esac
+
+# Resolve the phy that backs this interface
+PHY="$(cat "/sys/class/net/$INTERFACE/phy80211/name" 2>/dev/null)"
+[ -n "$PHY" ] || exit 0
+
+# Confirm the driver is wcn36xx
+DRVLINK="/sys/class/ieee80211/${PHY}/device/driver"
+DRIVER="$(basename "$(readlink -f "$DRVLINK" 2>/dev/null)" 2>/dev/null)"
+[ "$DRIVER" = "wcn36xx" ] || exit 0
+
+logger -t wcn36xx-fixrates "Re-applying rate fix on $INTERFACE (phy=$PHY): excluding MCS 0"
+
+iw phy "$PHY" set bitrates ht-mcs-2.4 1 2 3 4 5 6 7 2>&1 | \
+    logger -t wcn36xx-fixrates
+
+exit 0
