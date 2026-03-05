@@ -11,3 +11,4 @@ src-git-full extra https://github.com/HandsomeMod/extra.git
 
 # Xorg Feeds (WIP)
 src-git-full xorg https://github.com/HandsomeMod/xorg.git
+
