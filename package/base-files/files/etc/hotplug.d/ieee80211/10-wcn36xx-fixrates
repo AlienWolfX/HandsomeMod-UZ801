@@ -1,0 +1,29 @@
+#!/bin/sh
+# Hotplug handler: fix wcn36xx TX rate stuck at 6.5 Mbps (MCS 0).
+#
+# The wcn36xx firmware has HAS_RATE_CONTROL set in the kernel, so it
+# handles rate adaptation internally. However, after association it
+# starts at MCS 0 (6.5 Mbps) and can get stuck there.
+#
+# This script runs when the phy is added and uses iw phy set bitrates
+# to exclude MCS 0, forcing the firmware to start at MCS 1 (13 Mbps)
+# and adapt upward from there.
+
+[ "$ACTION" = "add" ] || exit 0
+[ -n "$DEVNAME" ] || exit 0
+
+# Verify this phy's driver is wcn36xx via sysfs
+DRVLINK="/sys/class/ieee80211/${DEVNAME}/device/driver"
+DRIVER="$(basename "$(readlink -f "$DRVLINK" 2>/dev/null)" 2>/dev/null)"
+
+[ "$DRIVER" = "wcn36xx" ] || exit 0
+
+logger -t wcn36xx-fixrates "Applying TX rate fix for $DEVNAME (driver=$DRIVER): excluding MCS 0"
+
+# Remove MCS 0 from the allowed HT rate set on 2.4 GHz.
+# MCS 0 = 6.5 Mbps (HT20 LGI). Excluding it forces the firmware
+# to negotiate from MCS 1 (13 Mbps) upward.
+iw phy "$DEVNAME" set bitrates ht-mcs-2.4 1 2 3 4 5 6 7 2>&1 | \
+    logger -t wcn36xx-fixrates
+
+exit 0

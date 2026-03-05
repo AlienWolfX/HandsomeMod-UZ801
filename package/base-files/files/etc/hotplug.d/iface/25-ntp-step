@@ -1,0 +1,26 @@
+#!/bin/sh
+
+[ "$ACTION" = "ifup" ] || exit 0
+
+[ -f /tmp/.ntp_stepped ] && exit 0
+
+touch /tmp/.ntp_stepped
+
+NTP_SERVERS=""
+for s in $(uci -q get system.ntp.server); do
+    NTP_SERVERS="$NTP_SERVERS -p $s"
+done
+[ -z "$NTP_SERVERS" ] && NTP_SERVERS="-p 0.pool.ntp.org -p 1.pool.ntp.org"
+
+logger -t ntp-step "RTC was $(date -u '+%Y-%m-%dT%H:%M:%SZ'). Running one-shot NTP step..."
+
+# -q = quit after first sync, -n = don't fork
+if ntpd -q -n $NTP_SERVERS 2>&1 | logger -t ntp-step; then
+    logger -t ntp-step "Clock stepped to $(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+    hwclock -w 2>/dev/null && logger -t ntp-step "hwclock updated"
+else
+    logger -t ntp-step "NTP step failed, sysntpd will slew"
+    rm -f /tmp/.ntp_stepped
+fi
+
+exit 0

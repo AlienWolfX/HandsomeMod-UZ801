@@ -1,0 +1,38 @@
+#!/bin/sh
+set -e
+
+# Hostname
+cur=$(uci get system.@system[0].hostname 2>/dev/null)
+if [ -z "$cur" ] || [ "$cur" = "HandsomeMod" ]; then
+  uci set system.@system[0].hostname='BogartX'
+  uci commit system
+fi
+
+# Timezone
+uci set system.@system[0].timezone='PST8PDT,M3.2.0,M11.1.0'
+uci commit system
+
+# NTP
+uci -q delete system.ntp.server
+uci add_list system.ntp.server='0.pool.ntp.org'
+uci add_list system.ntp.server='1.pool.ntp.org'
+uci add_list system.ntp.server='2.pool.ntp.org'
+uci add_list system.ntp.server='3.pool.ntp.org'
+uci set system.ntp.enabled='1'
+uci commit system
+
+# Wireless: disable hostapd inactivity polling that causes
+#   "wcn36xx: WARNING BSS or STA with addr ... not found" spam.
+# skip_inactivity_poll=1 stops null-data probes to idle clients.
+# disassoc_low_ack=1  evicts clients that stop ACKing frames quickly.
+for idx in $(uci show wireless | grep -o 'wifi-iface\[.\]' | sort -u | grep -o '[0-9]'); do
+  iface="wireless.@wifi-iface[$idx]"
+  uci set "${iface}.skip_inactivity_poll=1"
+  uci set "${iface}.disassoc_low_ack=1"
+  uci set "${iface}.max_inactivity=300"
+done
+uci commit wireless
+
+echo "BogartX: applied first-boot uci-defaults"
+
+exit 0
